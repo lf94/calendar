@@ -30,7 +30,7 @@ There are issues I find with Google Calendar, the go-to synchronized calendar so
 
 All you need to do, is run `./calendar init`. Every invocation after this can be done with just `calendar`.
 
-This will create your `~/.calendar` directory, and install this `calendar` program to `/usr/local/bin/calendar`, hopefully taking precedence over `/usr/bin/calendar`. Note that this program is meant to be a superset of what the standard `calendar` offers, and calling it with standard `calendar` commands will work!
+This will create your `~/.calendar` directory, and install this `calendar` program to `~/bin/calendar`, hopefully taking precedence over `/usr/bin/calendar`. Note that this program is meant to be a superset of what the standard `calendar` offers, and calling it with standard `calendar` commands will work! If this doesn't work you can modify `$LOCAL_BIN` in the script to specify another place.
 
 ## Synchronization (Download)
 

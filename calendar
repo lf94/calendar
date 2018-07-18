@@ -6,6 +6,7 @@
 #
 CALENDAR_DIR="$HOME/.calendar"
 CALENDAR_BINARY="/usr/bin/calendar"
+LOCAL_BIN="$HOME/bin"
 
 init() {
   if [ -d "$CALENDAR_DIR" ]; then
@@ -26,6 +27,9 @@ init() {
   echo '#include "./calendar.me.priv"' >> "$CALENDAR_DIR/calendar"
   echo '#include "./calendar.locals"' >> "$CALENDAR_DIR/calendar"
   echo '#include "./calendar.remotes"' >> "$CALENDAR_DIR/calendar"
+
+  mkdir "$LOCAL_BIN"
+  cp ./calendar "$LOCAL_BIN/calendar"
 }
 
 remote() {
