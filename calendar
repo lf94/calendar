@@ -42,6 +42,10 @@ remote() {
 
 refresh() {
   for filepath in "$CALENDAR_DIR/remotes"/*; do
+    if [ ! -e $filepath ]; then
+      continue
+    fi
+
     URL=$(head -n 1 $filepath) 
     echo $URL > "$filepath"
     curl -s $URL >> "$filepath"
