@@ -1,0 +1,54 @@
+#!/bin/sh
+#
+# Extend your *nix calendar system.
+#
+# Usage: calendar [ init | remote <url> <filename> | refresh ]
+#
+CALENDAR_DIR="$HOME/.calendar"
+CALENDAR_BINARY="/usr/bin/calendar"
+
+init() {
+  if [ -d "$CALENDAR_DIR" ]; then
+    echo "~/.calendar already exists. In order to prevent data loss this program will exit."
+    exit
+  fi
+
+  mkdir "$CALENDAR_DIR"
+  mkdir "$CALENDAR_DIR/locals"
+  mkdir "$CALENDAR_DIR/remotes"
+  touch "$CALENDAR_DIR/calendar"
+  touch "$CALENDAR_DIR/calendar.me.pub"
+  touch "$CALENDAR_DIR/calendar.me.priv"
+  touch "$CALENDAR_DIR/calendar.locals"
+  touch "$CALENDAR_DIR/calendar.remotes"
+
+  echo '#include "./calendar.me.pub"' >> "$CALENDAR_DIR/calendar"
+  echo '#include "./calendar.me.priv"' >> "$CALENDAR_DIR/calendar"
+  echo '#include "./calendar.locals"' >> "$CALENDAR_DIR/calendar"
+  echo '#include "./calendar.remotes"' >> "$CALENDAR_DIR/calendar"
+}
+
+remote() {
+  FILE_PATH="$CALENDAR_DIR/remotes/$2"
+  echo $1 > "$FILE_PATH"  # Store calendar URL (ignored by calendar parser)
+  curl -s $1 >> "$FILE_PATH" # Store calendar data
+
+  echo "#include \"$FILE_PATH\"" >>  "$CALENDAR_DIR/calendar.remotes"
+}
+
+refresh() {
+  for filepath in "$CALENDAR_DIR/remotes"/*; do
+    URL=$(head -n 1 $filepath) 
+    echo $URL > "$filepath"
+    curl -s $URL >> "$filepath"
+  done
+}
+
+case $1 in
+  "init")    init                ;;
+  "remote")  remote $2 $3        ;;
+  "refresh") refresh             ;;
+  *)         $CALENDAR_BINARY $@ ;;
+esac
+
+exit $?
