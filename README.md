@@ -13,7 +13,7 @@ As a local solution, this works very well. The issue is, how can we mix in remot
 
 To add a remote calendar, users are expected to host their calendars on a webserver (technically anything `curl` can download from!), and invoke: `calendar remote <url> <filename>`.
 
-A real world example of this could be `calendar remove http://calendar.stallman.org/pub richard.pub`, to get Richard Stallman's public calendar data.
+A real world example of this could be `calendar remote http://calendar.stallman.org/pub richard.pub`, to get Richard Stallman's public calendar data.
 
 The naming scheme has been chosen to reflect some people will have public dates (.pub) and private dates (.priv) they will and will not want to show to people.
 
